@@ -18,7 +18,7 @@ export default class JoinRoom extends React.Component{
 
         this.text = ''
         this.onReceivedMessage = this.onReceivedMessage.bind(this);
-        this.socket = SocketIOClient('http://localhost:3000');
+        this.socket = SocketIOClient('http://192.168.6.111:3000');
         this.socket.on('message', this.onReceivedMessage);
     }
 

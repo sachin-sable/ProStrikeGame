@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     ImageBackground,
-    Dimensions
+    Dimensions,
+    Button
 } from 'react-native';
 import SocketIOClient from 'socket.io-client';
 
@@ -16,6 +17,7 @@ export default class BattleField extends React.Component{
     constructor(props){
         super(props);
        // const imageFolder = `${RNFS.MainBundlePath}/assets/`;
+
         this.onReceivedMessage = this.onReceivedMessage.bind(this);
         this.socket = SocketIOClient('http://localhost:3000');
         this.socket.on('coordinatesForAll', this.onReceivedMessage);
@@ -25,19 +27,25 @@ export default class BattleField extends React.Component{
         console.log(message)
     }
 
-    handleImageRect(canvas) {
-        const image = new CanvasImage(canvas);
+
+    componentDidMount(){
+        this.handleImageRect();
+    }
+    handleImageRect() {
+        let canvas = this.canvasRef.current;
+        let image = new CanvasImage(canvas);
         canvas.width = width;
         canvas.height = height;
 
-        const context = canvas.getContext('2d');
+         let context = canvas.getContext('2d');
 
         image.src = 'https://mobileapp.questionpro.com/InHouseBuild/Andriod/SurveySwipe/prostrike/block.png';
 
 
-        const player1 = new CanvasImage(canvas);
-        player1.src = 'https://mobileapp.questionpro.com/InHouseBuild/Andriod/SurveySwipe/prostrike/player.png'
-        player1.draggable = true;
+        this.player1 = new CanvasImage(canvas);
+        this.player1.src = 'https://mobileapp.questionpro.com/InHouseBuild/Andriod/SurveySwipe/prostrike/player.png'
+        this.player2 = new CanvasImage(canvas);
+        this.player2.src = 'https://mobileapp.questionpro.com/InHouseBuild/Andriod/SurveySwipe/prostrike/player.png'
         image.addEventListener('load', () => {
             context.drawImage(image, 150, height*0.1, 20, height*0.85);
             context.drawImage(image, (width-190), height*0.1, 20, height*0.85);
@@ -46,34 +54,42 @@ export default class BattleField extends React.Component{
             context.drawImage(image, 220, height*0.60, 80, 80);
             context.drawImage(image, width-320, height*0.60, 80, 80);
             context.drawImage(image, width/2 - 50, height/2 - 40, 80, 80);
-            context.drawImage(player1, 30, height/2, playerSize, playerSize );
-            context.drawImage(player1, width - 80, height/2, playerSize, playerSize );
+            context.drawImage(this.player1, 30, height/2, playerSize, playerSize );
+            context.drawImage(this.player2, width - 80, height/2, playerSize, playerSize );
         });
-        player1.addEventListener('onClick',()=>{
-            console.log("Mouse down");
-        })
-
 
 
 
     }
-
-    drawLeftBar = (canvas)=>{
-        const leftBar = new CanvasImage(canvas);
-        const context = canvas.getContext('2d');
-        leftBar.src = 'https://mobileapp.questionpro.com/InHouseBuild/Andriod/SurveySwipe/prostrike/block.png';
-        leftBar.addEventListener('load', ()=>{
-            context.drawImage(leftBar, 0, height*0.1, 20, height*0.85);
-        })
-
+    moveMyPlayer = ()=>{
+        let context = this.canvasRef.current.getContext('2d');
+        context.clearRect(this.state.x, this.state.y, playerSize,playerSize);
+        context.drawImage(this.player1, this.state.x, this.state.y, playerSize, playerSize);
     }
+
     render(){
         return (
-            <ImageBackground source={require('./assets/battelfield_bg.jpg')} style={{width: width, height:height}}>
-                <Canvas ref={this.handleImageRect}/>
-                <Canvas ref={this.drawLeftBar}/>
-            </ImageBackground>
-        )
+            <ImageBackground source={require('./assets/battelfield_bg.jpg')} style={{width: width, height: height}}>
+                <View style={{flex: 1, marginVertical:30}}>
+                    <View style={{flex: 1}}>
+                        <Canvas ref={this.canvasRef}/>
+                    </View>
+                    <Button
+                        title={"Move"}
+                        onPress={() => {
+                            this.setState({
+                                x: this.state.x + 5,
+
+                            },()=>{
+                                this.moveMyPlayer()
+                                this.forceUpdate()
+                            })
+                        }}>
+
+                    </Button>
+
+                </View>
+            </ImageBackground>);
 
     }
 }
