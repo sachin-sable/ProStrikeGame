@@ -19,7 +19,7 @@ export default class BattleField extends React.Component{
        // const imageFolder = `${RNFS.MainBundlePath}/assets/`;
 
         this.onReceivedMessage = this.onReceivedMessage.bind(this);
-        this.socket = SocketIOClient('http://localhost:3000');
+        this.socket = SocketIOClient('http://192.168.6.111:3000');
         this.socket.on('coordinatesForAll', this.coordinatesForAll);
     }
 
