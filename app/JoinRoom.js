@@ -28,7 +28,7 @@ export default class JoinRoom extends React.Component{
         let isValid = message[0]
         let socketId = message[1]
         if (isValid === 'y'){
-            navigate('StartGame')
+            navigate('StartGame',{id: socketId})
         }
     }
 
