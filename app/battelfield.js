@@ -110,7 +110,20 @@ export default class BattleField extends React.Component{
                         <Canvas ref={this.canvasRef}/>
                     </View>
                     <Button
-                        title={"Move"}
+                        title={"MoveLeft"}
+                        onPress={() => {
+                            this.setState({
+                                x: this.state.x - 5,
+
+                            },()=>{
+                                this.moveMyPlayer()
+                                this.forceUpdate()
+                            })
+                        }}>
+
+                    </Button>
+                    <Button
+                        title={"MoveRight"}
                         onPress={() => {
                             this.setState({
                                 x: this.state.x + 5,
