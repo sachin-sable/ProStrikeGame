@@ -34,6 +34,7 @@ export default class BattleField extends React.Component{
     coordinatesForAll(message) {
         console.log(message)
         let context = this.canvasRef.current.getContext('2d');
+        context.clearRect( message[0] - 5, message[1] -5, playerSize, playerSize);
         context.drawImage(this.otherPlayer, message[0], message[1], playerSize, playerSize);
     }
 
