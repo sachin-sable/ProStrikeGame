@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14B6DCB6893A8B7C6EBEE828D60162D7"
+               BlueprintIdentifier = "C329539ED6B85FEA355BAD2996CC2913"
                BuildableName = "libreact-native-webview.a"
                BlueprintName = "react-native-webview"
                ReferencedContainer = "container:Pods.xcodeproj">

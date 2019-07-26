@@ -53,12 +53,18 @@ function onUserJoined(userId, socket) {
 
 // When a user sends a message in the chatroom.
 function onMessageReceived(message, senderSocket) {
-    console.log("onMessageReceived ", message)
-    var userId = users[senderSocket.id];
-    // Safety check.
-    if (!userId) return;
-
-    _sendAndSaveMessage(message, senderSocket);
+    console.log("onMessageReceived with message ", message)
+    // var userId = users[senderSocket.id];
+    // // Safety check.
+    // if (!userId) return;
+    //
+    // _sendAndSaveMessage(message, senderSocket);
+    if (message === '123'){
+        senderSocket.emit('message', 'y');
+    }
+    else{
+        senderSocket.emit('message', 'n');
+    }
 }
 
 // Helper functions.

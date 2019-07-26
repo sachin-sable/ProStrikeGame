@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CA0F1B9D18AFBE15B4F8CFEBD13755A9"
+               BlueprintIdentifier = "80A29BBD97D906387D5CCEB22C8D0FE1"
                BuildableName = "libPods-ProStrike.a"
                BlueprintName = "Pods-ProStrike"
                ReferencedContainer = "container:Pods.xcodeproj">
