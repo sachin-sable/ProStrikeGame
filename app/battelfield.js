@@ -20,11 +20,13 @@ export default class BattleField extends React.Component{
 
         this.onReceivedMessage = this.onReceivedMessage.bind(this);
         this.socket = SocketIOClient('http://localhost:3000');
-        this.socket.on('coordinatesForAll', this.onReceivedMessage);
+        this.socket.on('coordinatesForAll', this.coordinatesForAll);
     }
 
-    onReceivedMessage(message) {
+    coordinatesForAll(message) {
         console.log(message)
+        let context = this.canvasRef.current.getContext('2d');
+        context.drawImage(this.player2, message[0], message[1], playerSize, playerSize);
     }
 
 
@@ -65,8 +67,14 @@ export default class BattleField extends React.Component{
         let context = this.canvasRef.current.getContext('2d');
         context.clearRect(this.state.x, this.state.y, playerSize,playerSize);
         context.drawImage(this.player1, this.state.x, this.state.y, playerSize, playerSize);
+        this.socket.emit('onCoordinatesFromClient', [this.state.x, this.state.y]);
     }
 
+    moveOtherPlayer= ()=>{
+        let context = this.canvasRef.current.getContext('2d');
+        context.clearRect(this.state.x, this.state.y, playerSize,playerSize);
+        context.drawImage(this.player1, this.state.x, this.state.y, playerSize, playerSize);
+    }
     render(){
         return (
             <ImageBackground source={require('./assets/battelfield_bg.jpg')} style={{width: width, height: height}}>
