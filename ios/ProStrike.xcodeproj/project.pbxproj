@@ -161,7 +161,6 @@
 				9E7D4B7F20332BBECFFE2277 /* Pods-ProStrikeTests.debug.xcconfig */,
 				FE6AC0EA1D57B769C50AB623 /* Pods-ProStrikeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +307,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
