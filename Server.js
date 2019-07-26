@@ -9,7 +9,7 @@ var app = express();
 var server = http.Server(app);
 var websocket = socketio(server);
 server.listen(3000, () => console.log('listening on *:3000'));
-
+var socketID = 1
 // Mapping objects to easily map sockets and users.
 var clients = {};
 var users = {};
@@ -42,7 +42,8 @@ function onMessageReceived(message, senderSocket) {
     console.log("onMessageReceived with message ", message, senderSocket.id)
 
     if (message === '123'){
-        senderSocket.emit('message', ['y', senderSocket.id]);
+        senderSocket.emit('message', ['y', socketID]);
+        socketID = socketID + 1;
     }
     else{
         senderSocket.emit('message', 'n');
