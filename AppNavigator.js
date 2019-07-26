@@ -3,6 +3,7 @@ import JoinRoom from './app/JoinRoom';
 import StartGame from './app/StartGame';
 import LandingScreen from './app/LandingScreen';
 import GameScreen from './app/GameScreen';
+import BattleField from "./app/battelfield";
 
 const AppNavigator = createStackNavigator({
 
@@ -16,7 +17,7 @@ const AppNavigator = createStackNavigator({
             screen: JoinRoom
         },
         StartGame: {
-            screen: StartGame
+            screen: BattleField
         },
     },
     {
