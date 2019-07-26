@@ -25,18 +25,15 @@ export default class JoinRoom extends React.Component{
     onReceivedMessage(message) {
         console.log(message)
         const {navigate} = this.props.navigation;
-        if (message === 'y'){
+        let isValid = message[0]
+        let socketId = message[1]
+        if (isValid === 'y'){
             navigate('StartGame')
         }
     }
 
     buttonClicked(event) {
         this.socket.emit('message', this.text);
-    }
-
-    handleText(text){
-        //console.log(text)
-        //this.text = text
     }
 
     render(){

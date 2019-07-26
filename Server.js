@@ -22,27 +22,13 @@ websocket.on('connection', (socket) => {
     clients[socket.id] = socket;
     socket.on('userJoined', (userId) => onUserJoined(userId, socket));
     socket.on('message', (message) => onMessageReceived(message, socket));
+    socket.on('onCoordinatesFromClient', (message) => onCoordinatesFromClient(message, socket));
 });
 
 // Event listeners.
 // When a user joins the chatroom.
 function onUserJoined(userId, socket) {
     console.log("onUserJoined")
-    // try {
-    //     // The userId is null for new users.
-    //     if (!userId) {
-    //         var user = db.collection('users').insert({}, (err, user) => {
-    //             socket.emit('userJoined', user._id);
-    //             users[socket.id] = user._id;
-    //             _sendExistingMessages(socket);
-    //         });
-    //     } else {
-    //         users[socket.id] = userId;
-    //         _sendExistingMessages(socket);
-    //     }
-    // } catch(err) {
-    //     console.err(err);
-    // }
     if (!userId) {
         socket.emit('userJoined', userId);
     }
@@ -53,18 +39,19 @@ function onUserJoined(userId, socket) {
 
 // When a user sends a message in the chatroom.
 function onMessageReceived(message, senderSocket) {
-    console.log("onMessageReceived with message ", message)
-    // var userId = users[senderSocket.id];
-    // // Safety check.
-    // if (!userId) return;
-    //
-    // _sendAndSaveMessage(message, senderSocket);
+    console.log("onMessageReceived with message ", message, senderSocket.id)
+
     if (message === '123'){
-        senderSocket.emit('message', 'y');
+        senderSocket.emit('message', ['y', senderSocket.id]);
     }
     else{
         senderSocket.emit('message', 'n');
     }
+}
+
+function onCoordinatesFromClient(message, senderSocket) {
+    console.log("onCoordinatesFromClient with message ", message, senderSocket.id)
+    websocket.emit('coordinatesForAll', message);
 }
 
 // Helper functions.
@@ -86,12 +73,6 @@ function _sendAndSaveMessage(message, socket, fromServer) {
 
     var emitter = fromServer ? websocket : socket.broadcast;
     emitter.emit('message', message);
-
-    // db.collection('messages').insert(messageData, (err, message) => {
-    //   // If the message is from the server, then send to everyone.
-    //   var emitter = fromServer ? websocket : socket.broadcast;
-    //   emitter.emit('message', [message]);
-    // });
 }
 
 // Allow the server to participate in the chatroom through stdin.

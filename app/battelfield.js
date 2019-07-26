@@ -6,6 +6,7 @@ import {
     ImageBackground,
     Dimensions
 } from 'react-native';
+import SocketIOClient from 'socket.io-client';
 
 const{width, height} = Dimensions.get("window");
 import Canvas , {Image as CanvasImage, Path2D, ImageData} from 'react-native-canvas';
@@ -15,7 +16,15 @@ export default class BattleField extends React.Component{
     constructor(props){
         super(props);
        // const imageFolder = `${RNFS.MainBundlePath}/assets/`;
+        this.onReceivedMessage = this.onReceivedMessage.bind(this);
+        this.socket = SocketIOClient('http://localhost:3000');
+        this.socket.on('coordinatesForAll', this.onReceivedMessage);
     }
+
+    onReceivedMessage(message) {
+        console.log(message)
+    }
+
     handleImageRect(canvas) {
         const image = new CanvasImage(canvas);
         canvas.width = width;
